@@ -1,0 +1,6 @@
+template_files/
+workload_files/
+model_generation/TRLib_new.pkl
+model_selection/__pycache__/
+model_generation/__pycache__/
+.vscode/
