@@ -32,19 +32,7 @@ def ILP(critical_path, inst_mix, block_inst):
                     ILP_insert_inst = ILP_insert_inst - 1
                     break
                 block_inst[j + i * ROB_SIZE] = ['mov', dest_reg, src_reg]
-                dest_reg, src_reg = src_reg, dest_reg
-    
-    # # 当插入的 mov 指令的数量为奇数个时，在最后的位置补充一个关键路径距离
-    # if ILP_insert_inst % 2 != 0:
-    #     index = rob_num * ROB_SIZE
-    #     while(index < len(block_inst)):
-    #         if(len(block_inst[index]) == 0):
-    #             block_inst[index] = ['mov', dest_reg, src_reg] 
-    #             dest_reg, src_reg = src_reg, dest_reg
-    #             ILP_insert_inst = ILP_insert_inst + 1
-    #             break
-    #         else:
-    #             index = block_inst + 1                  
+                dest_reg, src_reg = src_reg, dest_reg               
 
 
     print("    ILP:    int_alu_inst_num : " + str(ILP_insert_inst))

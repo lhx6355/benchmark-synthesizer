@@ -97,10 +97,10 @@ class PCGenCore(object):
                     self.load_global_spatial_length, self.store_global_spatial_length, self.load_global_temporal_length, self.store_global_temporal_length, code_type)
 
             # 随机的选择了一个block输出
-            selected_block_inst_index = random.randint(0, len(block_inst) - 1)
+            # selected_block_inst_index = random.randint(0, len(block_inst) - 1)
             filename = file_dir.split('/')
             func_name = 'func' + filename[-1].split('.')[0]
-            print_code(code_struct_para, block_inst[selected_block_inst_index], func_name, fout)
+            print_code(code_struct_para, block_inst, func_name, fout)
             print ('    done!!!!')
             fout.close()
 
@@ -130,13 +130,13 @@ def PCGen_new():
     # generate model file
     for pl in range(gv['process_loops']):                           # 输入了几个参数json文件就循环几次
         print ('loops ' + gv['code_files'][pl].split('/')[-1] + ': ')
-        if gv['code_files'][pl].split('/')[-1] == "154.c":
-            pgc = PCGenCore(gv['ppls'][pl])                             # 参数传给 PCGenCore 类
-            file_dir = gv['code_files'][pl]
-            try:
-                pgc.model_generate(tr_lib, file_dir)
-            except NotFoundError:
-                continue
+        # if gv['code_files'][pl].split('/')[-1] == "10226.c":
+        pgc = PCGenCore(gv['ppls'][pl])                             # 参数传给 PCGenCore 类
+        file_dir = gv['code_files'][pl]
+        try:
+            pgc.model_generate(tr_lib, file_dir)
+        except NotFoundError:
+            continue
 
     tr_file.close()
 

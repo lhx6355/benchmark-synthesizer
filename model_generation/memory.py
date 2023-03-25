@@ -22,8 +22,6 @@ class MemoryError(Exception):
     Raises:
         MemoryError -- raise error if number of memory instruction is 0
 """
-
-
 # -1: 后退     0：不变化     1：前进 
 def glob_mem_temp(mem_num, global_spatial_length, global_temporal_length):
     MEM_ADDR_MIN = 0x00E80000               
@@ -45,12 +43,12 @@ def glob_mem_temp(mem_num, global_spatial_length, global_temporal_length):
     offset = 8 ** global_spatial_length
     max_offset = deep_step * offset                                                                   # 单次循环中，访问最大的地址空间
     # max_num = int(MEM_SIZE / (8 ** global_spatial_length))                                                    # 在可用的空间内，最大的访存指令数
-    if max_offset > MEM_SIZE or loop_inst_num + 1 > mem_num:
+    if max_offset > MEM_SIZE or loop_inst_num > mem_num:
         raise MemoryError
 
     # generate the distribution
     distribution = []
-    for i in range(int((mem_num - 1) / loop_inst_num) * loop_inst_num):
+    for i in range(int((mem_num) / loop_inst_num) * loop_inst_num):
         if int(i / deep_step) % 2 == 0:
             distribution.append(1)
         else:
@@ -70,12 +68,13 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
         imme_reg  = 'x11'
         mem_inst_num = inst_mix['store_inst_num']
     else:
-        MemoryError
-        
-    block_size = len(block_inst)
+        return block_inst, inst_mix
+
+    if mem_inst_num == 0:
+        return block_inst, inst_mix
 
     try:
-        load_distribution = glob_mem_temp(int(mem_inst_num), load_global_spatial_length, load_global_temporal_length)
+        load_distribution = glob_mem_temp(int(mem_inst_num - 1), load_global_spatial_length, load_global_temporal_length)
     except MemoryError:
         return block_inst, inst_mix
 
@@ -83,7 +82,8 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
     immediate_number = 500000           
     int_for_load_num = 0
 
-    block_free_index = [i for i in range(block_size) if len(block_inst[i]) == 0]
+    # 在开始位置插入一条mov指令
+    block_free_index = [i for i in range(len(block_inst)) if len(block_inst[i]) == 0]
     if len(block_free_index) != 0:
         block_inst[block_free_index[0]] = ['mov', src_reg, '#0x' + str(immediate_number)]
         int_for_load_num += 1
@@ -105,18 +105,14 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
         load_offset_imme = 0
 
     # sub指令和load指令插入的位置
-    load_inst_index = []
-    while len(load_inst_index) < len(load_distribution) * 2 + 1:
-        index = random.choice(block_free_index)		
-        load_inst_index.append(index)
-        block_free_index.remove(index)
+    load_inst_index = random.sample(block_free_index, len(load_distribution) * 2 + 1)
 
     # 插入第一个ldr指令的位置
     load_inst_index.sort()
     block_inst[load_inst_index[0]] = [inst_type, dest_reg, src_reg, '0']
-
+    
+    inst_mem_num = 1
     inst_mov_num = 0                                # add sub指令的数量
-    inst_mem_num = 0
     for i in range(1, len(load_inst_index), 2):
         # 此时不需要offset的跳转
         if load_distribution[int((i - 1) / 2)] == 0:
@@ -138,11 +134,13 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
         inst_mem_num += 1
 
     if inst_type == 'ldr':
-        inst_mix['load_inst_num'] = inst_mix['load_inst_num'] - inst_mem_num
+        inst_mix['load_inst_num'] = inst_mix['load_inst_num'] - inst_mem_num, 0
     elif inst_type == 'str':
-        inst_mix['store_inst_num'] = inst_mix['store_inst_num'] - inst_mem_num
+        inst_mix['store_inst_num'] = inst_mix['store_inst_num'] - inst_mem_num, 0
 
     inst_mix['int_alu_inst_num'] = inst_mix['int_alu_inst_num'] - inst_mov_num - int_for_load_num
+
+    print("    memory:  " + inst_type + " : " + str(inst_mem_num))
 
     return block_inst, inst_mix
 
