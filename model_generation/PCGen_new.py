@@ -76,7 +76,7 @@ class PCGenCore(object):
 
 
     # the complete flow of generate a model according  to json file
-    def model_generate(self, tr_lib, output_file, file_dir):
+    def model_generate(self, tr_lib, file_dir):
         if self.store_global_spatial_length > 10 or self.load_global_spatial_length > 10 :                                  # lhx
             return
         # select the matching code structure
@@ -87,6 +87,7 @@ class PCGenCore(object):
         except NotFoundError:
             raise NotFoundError
         else:
+            fout = open(file_dir, 'w')
             basic_block_size = code_struct_para['basic_block_size']
             loop_time        = code_struct_para['loop_time']
             ifelse_pair      = code_struct_para['ifelse_pair']
@@ -99,8 +100,9 @@ class PCGenCore(object):
             selected_block_inst_index = random.randint(0, len(block_inst) - 1)
             filename = file_dir.split('/')
             func_name = 'func' + filename[-1].split('.')[0]
-            print_code(code_struct_para, block_inst[selected_block_inst_index], func_name, output_file)
+            print_code(code_struct_para, block_inst[selected_block_inst_index], func_name, fout)
             print ('    done!!!!')
+            fout.close()
 
 
 ''' gv = dict{                     # Global Values
@@ -128,16 +130,13 @@ def PCGen_new():
     # generate model file
     for pl in range(gv['process_loops']):                           # 输入了几个参数json文件就循环几次
         print ('loops ' + gv['code_files'][pl].split('/')[-1] + ': ')
-        pgc = PCGenCore(gv['ppls'][pl])                             # 参数传给 PCGenCore 类
-        file_dir = gv['code_files'][pl]
-        fout = open(gv['code_files'][pl], 'w')
-        try:
-            pgc.model_generate(tr_lib, fout, file_dir)
-        except NotFoundError:
-            fout.close()
-            continue
-        else:
-            fout.close()
+        if gv['code_files'][pl].split('/')[-1] == "154.c":
+            pgc = PCGenCore(gv['ppls'][pl])                             # 参数传给 PCGenCore 类
+            file_dir = gv['code_files'][pl]
+            try:
+                pgc.model_generate(tr_lib, file_dir)
+            except NotFoundError:
+                continue
 
     tr_file.close()
 

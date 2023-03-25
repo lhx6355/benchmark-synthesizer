@@ -150,4 +150,4 @@ def final(block_inst, inst_mix, block_size):
 			block_inst[i] = ['sub', 'w3', 'w4', '#0x01']
 			len_sub += 1
 
-	return block_inst
+	return block_inst, inst_mix

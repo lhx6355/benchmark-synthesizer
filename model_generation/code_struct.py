@@ -23,7 +23,9 @@ def code_struct(tr_lib, inst_mix, branch_transition_rate, inst_fetch_reuse_dist,
     basic_block_size = inst_sum
     if branch_inst_num != 0:
         basic_block_size = int(round(float(inst_sum) / float(branch_inst_num)))
-    
+    if basic_block_size < 18:
+        raise NotFoundError
+
     # search tr_lib for matching code structure
     selected_lib_key = [0, 0, 0, 0, 0, 0]
     for lib_key in tr_lib:

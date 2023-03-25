@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-
 import random
 
-
-def serial(inst_mix, block_size, serial_block_length):
+def Serial(inst_mix, block_size, serial_block_length):
 	block_inst = [[] for i in range(0, block_size)]
 	print("    block_inst: inst_num     : " + str(len(block_inst)))
 	serial_inst_num = inst_mix['serial_inst_num']
