@@ -49,11 +49,18 @@ def gen_json():
 	BRANCH_INST_NUM_MIN = 0
 	BRANCH_INST_NUM_MAX = 100000
 
+	# ILP
+	CRITICAL_PATH_LENGTH_MIN = 0
+	CRITICAL_PATH_LENGTH_MAX = 40
+	REG_DEPENDENCE_LENGTH_MIN = 0
+	REG_DEPENDENCE_LENGTH_MAX = 29
+
 	# locality
 	INST_FETCH_REUSE_DIST_MIN = 0
-	INST_FETCH_REUSE_DIST_MAX = 10
+	INST_FETCH_REUSE_DIST_MAX = 9
 	INST_FETCH_ADDR_DIST_MIN = 0
-	INST_FETCH_ADDR_DIST_MAX = 10
+	INST_FETCH_ADDR_DIST_MAX = 9
+
 	LOAD_LOCAL_SPATIAL_MIN = 0
 	LOAD_LOCAL_SPATIAL_MAX = 11
 	LOAD_GLOBAL_SPATIAL_MIN = 0
@@ -70,11 +77,7 @@ def gen_json():
 	STORE_LOCAL_TEMPORAL_MAX = 11
 	STORE_GLOBAL_TEMPORAL_MIN = 0
 	STORE_GLOBAL_TEMPORAL_MAX = 11
-	# ILP
-	CRITICAL_PATH_LENGTH_MIN = 0
-	CRITICAL_PATH_LENGTH_MAX = 40
-	REG_DEPENDENCE_LENGTH_MIN = 0
-	REG_DEPENDENCE_LENGTH_MAX = 29
+
 	# Others
 	BRANCH_TRANSITION_RATE_MIN = 0.0
 	BRANCH_TRANSITION_RATE_MAX = 1.0
@@ -119,15 +122,15 @@ def gen_json():
 # set each parameter
 # instruction mix -- method1
 	SIMDNum = \
-		random.randint(1, 30)	
+		random.randint(1, 1000)	
 		# random.randint(SIMD_NUM_MIN, SIMD_NUM_MAX) 
 	para_dict['InstMix']['SIMDNum'] = SIMDNum
 	LoadInstNum = \
-		random.randint(1, 80)
+		random.randint(1, 2000)
 		#random.randint(LOAD_INST_NUM_MIN, LOAD_INST_NUM_MAX)
 	para_dict['InstMix']['LoadInstNum'] = LoadInstNum
 	StoreInstNum = \
-		random.randint(1, 30)
+		random.randint(1, 2000)
 		#random.randint(STORE_INST_NUM_MIN, STORE_INST_NUM_MAX)
 	para_dict['InstMix']['StoreInstNum'] = StoreInstNum
 	SerialInstNum = \
@@ -164,6 +167,14 @@ def gen_json():
 		#random.randint(BRANCH_INST_NUM_MIN, BRANCH_INST_NUM_MAX)
 	para_dict['InstMix']['BranchInstNum'] = BranchInstNum
 
+	#ILP
+	CriticalPathLength = \
+		random.randint(CRITICAL_PATH_LENGTH_MIN, CRITICAL_PATH_LENGTH_MAX)
+	para_dict['ILP']['CriticalPathLength'] = CriticalPathLength
+	RegDependenceLength = \
+		random.randint(REG_DEPENDENCE_LENGTH_MIN, REG_DEPENDENCE_LENGTH_MAX)
+	para_dict['ILP']['RegDependenceLength'] = RegDependenceLength
+
 	#locality
 	InstFetchReuseDist = \
 		random.randint(INST_FETCH_REUSE_DIST_MIN, INST_FETCH_REUSE_DIST_MAX)
@@ -195,14 +206,6 @@ def gen_json():
 	StoreGlobalTemporal = \
 		random.randint(STORE_GLOBAL_TEMPORAL_MIN, STORE_GLOBAL_TEMPORAL_MAX)
 	para_dict['Locality']['StoreGlobalTemporal'] = StoreGlobalTemporal
-
-	#ILP
-	CriticalPathLength = \
-		random.randint(CRITICAL_PATH_LENGTH_MIN, CRITICAL_PATH_LENGTH_MAX)
-	para_dict['ILP']['CriticalPathLength'] = CriticalPathLength
-	RegDependenceLength = \
-		random.randint(REG_DEPENDENCE_LENGTH_MIN, REG_DEPENDENCE_LENGTH_MAX)
-	para_dict['ILP']['RegDependenceLength'] = RegDependenceLength
 
 	#others
 	BranchTransitionRate = \

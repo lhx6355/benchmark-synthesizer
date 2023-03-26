@@ -2,6 +2,9 @@
 # 寄存器依赖距离没有实现，
 import random
 
+class ILPError(Exception):
+    pass
+
 def ILP(critical_path, inst_mix, block_inst):
     dest_reg = 'w6'
     src_reg  = 'w7'    
@@ -10,8 +13,10 @@ def ILP(critical_path, inst_mix, block_inst):
     critical_path_index = set()
 
 # 由于每条load、store指令需要一条add、sub这种alu指令，因此留给mov的指令数为 int_alu_inst_num - load_inst_num - store_inst_num
-    alu_available_inst_num = inst_mix['int_alu_inst_num'] - inst_mix['load_inst_num'] - inst_mix['store_inst_num']
-    assert(alu_available_inst_num > 0)   
+    alu_available_inst_num = inst_mix['int_alu_inst_num'] - inst_mix['load_inst_num'] - inst_mix['store_inst_num'] - 4
+    if alu_available_inst_num <= 0:
+        raise ILPError
+    # assert(alu_available_inst_num > 0)   
 
 # use mov to implement criticalpath
     critical_path_index = random.sample(range(40), critical_path)

@@ -4,7 +4,7 @@
 import random
 
 
-def final(block_inst, inst_mix, block_size):
+def final(block_inst, inst_mix):
 	simd_inst_num 			= inst_mix['simd_inst_num']
 	int_alu_inst_num 		= inst_mix['int_alu_inst_num']
 	int_mul_inst_num 		= inst_mix['int_mul_inst_num']
@@ -13,6 +13,7 @@ def final(block_inst, inst_mix, block_size):
 	fp_neondiv_inst_num 	= inst_mix['fp_neondiv_inst_num']
 	fp_neonmul_inst_num 	= inst_mix['fp_neonmul_inst_num']
 
+	block_size = len(block_inst)
 
 	block_free_index = [index for index in range(block_size) if len(block_inst[index]) == 0]
 

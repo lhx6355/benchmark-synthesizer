@@ -26,9 +26,9 @@ def insert_program(inst_mix, loop_time, basic_block_size, ifelse_pair, serial_bl
 	[block_inst, new_inst_mix] = memory.memory(new_inst_mix, block_inst, load_global_spatial_length, store_global_spatial_length, load_global_temporal_length, store_global_temporal_length)  	# lhx  2022.03.09
 
 	# final
-	[block_inst, new_inst_mix] = final.final(block_inst, new_inst_mix, block_size)
+	[block_inst, new_inst_mix] = final.final(block_inst, new_inst_mix)
 
-	block_free_index = [index for index in range(block_size) if len(block_inst[index]) == 0]
+	block_free_index = [index for index in range(len(block_inst)) if len(block_inst[index]) == 0]
 	assert(len(block_free_index) == 0)
 
 	return block_inst

@@ -33,17 +33,26 @@ def glob_mem_temp(mem_num, global_spatial_length, global_temporal_length):
         distribution = [0 % 2 for i in range(mem_num)]
         return distribution
     
-    # generate the worst distribution
     if global_temporal_length == 1:
         loop_inst_num = 2
     else:
         # 相同访存地址之间应该插入奇数个访存指令，
-        loop_inst_num = random.randrange(2 ** (global_temporal_length - 1), 2 ** global_temporal_length - 1, 2) + 1 + 1    # 单次 “循环” 中的指令数量，loop_inst_num 是 2 的倍数
+        # 单次循环需要的最小/大指令间隔的指令数量
+        min_loop_inst = 2 ** (global_temporal_length - 1)
+        max_loop_inst = min((mem_num - 2), 2 ** global_temporal_length - 1)
+        if min_loop_inst == max_loop_inst:
+            loop_inst_num = min_loop_inst + 1 + 1
+        elif min_loop_inst < max_loop_inst:
+            loop_inst_num = random.randrange(min_loop_inst, max_loop_inst, 2) + 1 + 1    # 单次 “循环” 中的指令数量，loop_inst_num 是 2 的倍数
+        else:
+            # 不满足一次循环
+            raise MemoryError
+        
     deep_step = int(loop_inst_num / 2)
     offset = 8 ** global_spatial_length
-    max_offset = deep_step * offset                                                                   # 单次循环中，访问最大的地址空间
-    # max_num = int(MEM_SIZE / (8 ** global_spatial_length))                                                    # 在可用的空间内，最大的访存指令数
-    if max_offset > MEM_SIZE or loop_inst_num > mem_num:
+    max_offset = deep_step * offset                                                      # 单次循环中，访问最大的地址空间
+    if max_offset > MEM_SIZE:
+        # 不满足空间分布
         raise MemoryError
 
     # generate the distribution
@@ -134,9 +143,9 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
         inst_mem_num += 1
 
     if inst_type == 'ldr':
-        inst_mix['load_inst_num'] = inst_mix['load_inst_num'] - inst_mem_num, 0
+        inst_mix['load_inst_num'] = inst_mix['load_inst_num'] - inst_mem_num
     elif inst_type == 'str':
-        inst_mix['store_inst_num'] = inst_mix['store_inst_num'] - inst_mem_num, 0
+        inst_mix['store_inst_num'] = inst_mix['store_inst_num'] - inst_mem_num
 
     inst_mix['int_alu_inst_num'] = inst_mix['int_alu_inst_num'] - inst_mov_num - int_for_load_num
 
@@ -146,7 +155,7 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
 
 
 def memory(inst_mix, block_inst, load_global_spatial_length, store_global_spatial_length, load_global_temporal_length, store_global_temporal_length):
-    block_inst, inst_mix = inst_allocate('ldr', inst_mix, block_inst, load_global_spatial_length, load_global_temporal_length)
+    block_inst, inst_mix = inst_allocate('ldr', inst_mix, block_inst, load_global_spatial_length,  load_global_temporal_length)
     block_inst, inst_mix = inst_allocate('str', inst_mix, block_inst, store_global_spatial_length, store_global_temporal_length)
 
     return block_inst, inst_mix

@@ -20,6 +20,8 @@ structReturn = Template(u'${tab}return 0;\n')
 
 structMaps = Template(u'${tab}int temp[5000000][200] = {0};\n')       # lhx
 # structMaps = Template(u'${tab}void *ptr = temp + 5000000 / 2;\n')       # lhx
+structPoint = Template(u'${tab}    asm volatile ("mov x12, #0x800000;\\n\\t" ::: "x12"); //[point];\n')       # lhx
+
 
 
 
@@ -136,6 +138,7 @@ def code_list(code_struct_para, block_inst, code_ID):
     code_list = []
     code_list.append(structMaps.substitute(tab = ''))                           # lhx
     code_list.append(structFuncName.substitute(tab = '', suffx = str(code_ID)))
+    code_list.append(structPoint.substitute(tab = ''))
 
     if code_struct_type == 0:
         for i in range(len(block_inst)):
@@ -211,6 +214,7 @@ def code_list(code_struct_para, block_inst, code_ID):
         block_inst_index += basic_block_size
 
 
+    code_list.append(structPoint.substitute(tab = ''))
     code_list.append(structRightBrace.substitute(tab = ''))
     code_list.append(structMain.substitute(tab = ''))
     code_list.append(structFuncCall.substitute(tab = '\t', suffx = code_ID))

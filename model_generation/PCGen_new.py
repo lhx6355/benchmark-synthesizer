@@ -128,9 +128,11 @@ def PCGen_new():
     tr_lib = pickle.load(tr_file)
 
     # generate model file
+    # flag = 0
     for pl in range(gv['process_loops']):                           # 输入了几个参数json文件就循环几次
         print ('loops ' + gv['code_files'][pl].split('/')[-1] + ': ')
-        # if gv['code_files'][pl].split('/')[-1] == "10226.c":
+        # if gv['code_files'][pl].split('/')[-1] == "96583.c" or flag == 1:
+        # flag = 1
         pgc = PCGenCore(gv['ppls'][pl])                             # 参数传给 PCGenCore 类
         file_dir = gv['code_files'][pl]
         try:
