@@ -1,29 +1,25 @@
 # -*- coding: UTF-8 -*-
-"""generate json file with various values as input for model generating 
-"""
-
 import os
-import sys
 import random
 import json
 import math
 import shutil
 
-def gen_json():
-	"""generate parameters in form of dict
-	
-	generate 25 parameters into json file as input for code generation phase;
-	25 parameters are:
-		11 for instruction mix: SIMD, load, store, int alu, int multi div, int mul, fp neon alu, fp neon div, fp  neon mul, branch 
-		2 for instruction locality: fetch reuse distance, fetch address distance
-		8 for data locality: load/store global/local temporal/spatial length
-		2 for ILP:
-		1 for branch:
-		and serial block size
-	Returns:
-		dict -- dict with 25 parameters as input of function print_json
-	"""
+"""generate parameters in form of dict
 
+generate 25 parameters into json file as input for code generation phase;
+25 parameters are:
+	11 for instruction mix: SIMD, load, store, int alu, int multi div, int mul, fp neon alu, fp neon div, fp  neon mul, branch 
+	2 for instruction locality: fetch reuse distance, fetch address distance
+	8 for data locality: load/store global/local temporal/spatial length
+	2 for ILP:
+	1 for branch:
+	and serial block size
+Returns:
+	dict -- dict with 25 parameters as input of function print_json
+"""
+
+def gen_json():
 # domain of each parameter
 	# instruction mix
 	SIMD_NUM_MIN = 0  
@@ -86,37 +82,37 @@ def gen_json():
 
 # initialize a parameter dict, each parameter to 0
 	para_dict = {
-				    'InstMix': {
-        					   	   'SIMDNum': 0,
-                                   'LoadInstNum': 0,    
-        							'StoreInstNum': 0,    
-        							'SerialInstNum': 0,        
-        							'IntAluInstNum': 0,    
-        							'IntMultiDivNum': 0,    
-							        'IntMulNum': 0,    
-							        'FpNeonAluNum': 0,    
-							        'FpNeonDivNum': 0,    
-							        'FpNeonMulNum': 0,
-							        'BranchInstNum':0
-    							},
-    				'Locality': {
-							        'InstFetchReuseDist': 0,
-							        'InstFetchAddrDist': 0,
-							        'LoadLocalSpatial': 0,
-							        'LoadGlobalSpatial': 0,
-							        'LoadLocalTemporal': 0,
-							        'LoadGlobalTemporal': 0,
-							        'StoreLocalSpatial': 0,
-							        'StoreGlobalSpatial': 0,
-							        'StoreLocalTemporal': 0,
-							        'StoreGlobalTemporal': 0
-    							},
- 				   'ILP':       {
-							        'CriticalPathLength': 0,
-        							'RegDependenceLength': 0
-    							},
-    								'BranchTransitionRate': 0.0,
-    								'SerialBlockSize': 0
+				'InstMix': {
+							'SIMDNum': 0,
+							'LoadInstNum': 0,    
+							'StoreInstNum': 0,    
+							'SerialInstNum': 0,        
+							'IntAluInstNum': 0,    
+							'IntMultiDivNum': 0,    
+							'IntMulNum': 0,    
+							'FpNeonAluNum': 0,    
+							'FpNeonDivNum': 0,    
+							'FpNeonMulNum': 0,
+							'BranchInstNum':0
+							},
+				'Locality': {
+							'InstFetchReuseDist': 0,
+							'InstFetchAddrDist': 0,
+							'LoadLocalSpatial': 0,
+							'LoadGlobalSpatial': 0,
+							'LoadLocalTemporal': 0,
+							'LoadGlobalTemporal': 0,
+							'StoreLocalSpatial': 0,
+							'StoreGlobalSpatial': 0,
+							'StoreLocalTemporal': 0,
+							'StoreGlobalTemporal': 0
+							},
+				'ILP':       {
+							'CriticalPathLength': 0,
+							'RegDependenceLength': 0
+							},
+							'BranchTransitionRate': 0.0,
+							'SerialBlockSize': 0
 				}
 
 # set each parameter
@@ -125,6 +121,7 @@ def gen_json():
 		random.randint(1, 1000)	
 		# random.randint(SIMD_NUM_MIN, SIMD_NUM_MAX) 
 	para_dict['InstMix']['SIMDNum'] = SIMDNum
+
 	LoadInstNum = \
 		random.randint(1, 2000)
 		#random.randint(LOAD_INST_NUM_MIN, LOAD_INST_NUM_MAX)
@@ -133,10 +130,12 @@ def gen_json():
 		random.randint(1, 2000)
 		#random.randint(STORE_INST_NUM_MIN, STORE_INST_NUM_MAX)
 	para_dict['InstMix']['StoreInstNum'] = StoreInstNum
+
 	SerialInstNum = \
 		random.randint(1, 30)
 		#random.randint(SERIAL_INST_NUM_MIN, SERIAL_INST_NUM_MAX)
 	para_dict['InstMix']['SerialInstNum'] = SerialInstNum
+
 	IntAluInstNum = \
 		random.randint(3500, 9500)
 		#random.randint(INT_ALU_INST_NUM_MIN, INT_ALU_INST_NUM_MAX)
@@ -149,6 +148,7 @@ def gen_json():
 		random.randint(1, 20)
 		#random.randint(INT_MUL_NUM_MIN, INT_MUL_NUM_MAX)
 	para_dict['InstMix']['IntMulNum'] = IntMulNum
+
 	FpNeonAluNum = \
 		random.randint(1, 30)
 		#random.randint(FP_NEON_ALU_NUM_MIN, FP_NEON_ALU_NUM_MAX)		
@@ -161,7 +161,7 @@ def gen_json():
 		random.randint(1, 20)
 		#random.randint(FP_NEON_MUL_NUM_MIN, FP_NEON_MUL_NUM_MAX)
 	para_dict['InstMix']['FpNeonMulNum'] = FpNeonMulNum
-	#branch inst num cannot be zero
+	# branch inst num cannot be zero                                     25%
 	BranchInstNum = \
 		random.randint(0, 4000)
 		#random.randint(BRANCH_INST_NUM_MIN, BRANCH_INST_NUM_MAX)
@@ -479,20 +479,19 @@ def print_json(patternPath, para_dict, filename):
 	file.write(json_obj)
 	file.close()
 
-def main():
+def json_gen(PatternPath_path):
 	# delete old files
 	BASE_DIR = os.path.dirname(__file__)
-	PatternPath = 'PatternFiles'
-	dest_dir = os.path.join(BASE_DIR, PatternPath)
+	dest_dir = os.path.join(BASE_DIR, PatternPath_path)
 	if os.path.exists(dest_dir):						# 如果之前旧的文件夹存在，则删除旧文件夹
 		shutil.rmtree(dest_dir)							
 	os.mkdir(dest_dir)									# 在当前目录下创建 PatternFiles 文件夹
-	json_num = 100000									# 生成json_num个json文件
-	for i in range(0, json_num):
+	for i in range(100000, 200000):
+	# for i in range(0, 10000):
 		print (i)
 		# para_dict = gen_para(json_num, 1)				# 一定规律的生成
 		para_dict = gen_json()							# 随机的生成参数
-		print_json(PatternPath, para_dict, str(i) + '.json')			# json写入文件
+		print_json(PatternPath_path, para_dict, str(i) + '.json')			# json写入文件
 
 if __name__ == '__main__':
-	main()
+	json_gen('PatternFiles')

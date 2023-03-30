@@ -4,6 +4,7 @@ import matlab.engine
 import pickle
 import sys
 
+from model_generation import json_gen
 from model_generation import PCGen_new
 from model_selection  import benchmark_sythesizer
 
@@ -56,10 +57,12 @@ def clustering(filepath):
 	print ('end function fastmodel_workload')
 
 def model_gen():
-	sys.argv.append("--ifd")
-	sys.argv.append("model_generation/PatternFiles")
-	sys.argv.append("--ofd")
-	sys.argv.append("model_generation/CodeFiles")
+	json_gen.json_gen('PatternFiles')
+
+	sys.argv.append('--ifd')
+	sys.argv.append('PatternFiles')
+	sys.argv.append('--ofd')
+	sys.argv.append('CodeFiles')
 	PCGen_new.PCGen_new()
 
 

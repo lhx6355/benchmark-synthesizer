@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import math
 from string import Template
-import os
 import random
 
 #code structure template
@@ -236,66 +234,3 @@ def print_code(code_struct_para, block_inst, code_ID, file_obj):
     for i in range(0, len(asm_code_list)):
         file_obj.writelines(list2text(asm_code_list[i]))
     #file_obj.close()
-
-
-
-#sample test
-#function for sample test
-# def print_code_test(code_struct_para, block_inst, code_ID, file_obj):
-#     asm_code_list = code_list(code_struct_para, block_inst, code_ID)
-#     BASE_DIR = os.path.dirname(__file__)
-#     dest_dir = os.path.join(BASE_DIR, 'CodeFiles')
-#     if not os.path.exists(dest_dir):
-#         os.mkdir(dest_dir)
-#     dest_file = os.path.join(dest_dir, file_obj)
-#     file = open(dest_file, 'wb')
-#     for i in range(0, len(asm_code_list)):
-#         file.writelines(list2text(asm_code_list[i]))
-#     file.close()
-
-# code_struct_para = {
-#                     'code_struct_type': 0,
-#                     'loop_time': 10,
-#                     'ifelse_pair': 3,
-#                     'embedded_loop_time': 10,
-#                     'modulos': [3,4,5,6,7],
-#                     'ismoduled': [True, False, True, True],
-#                     'basic_block_size': 18
-#                    }
-# #size = 16
-# block_inst = [
-#             ['dsb', 'x1'],
-#             ['mov', 'x1', 'x2'],
-#             ['mov2', 'x1', 'x2'],
-#             ['dup', 'x1', 'x2'],
-#             ['and', 'x1', 'x2'],
-#             ['ldr', 'x1', 'x2', 'x3'],
-#             ['str', 'x1', 'x2', 'x3'],
-#             ['add', 'x1', 'x2', 'x3'],
-#             ['sub', 'x1', 'x2', 'x3'],
-#             ['smul', 'x1', 'x2', 'x3'],
-#             ['sdiv', 'x1', 'x2', 'x3'],
-#             ['fadd', 'x1', 'x2', 'x3'],
-#             ['fsub', 'x1', 'x2', 'x3'],
-#             ['fmul', 'x1', 'x2', 'x3'],
-#             ['fdiv', 'x1', 'x2', 'x3'],
-#             ['add2', 'x1', 'x2', 'x3'],
-#             ['add3', 'x1', 'x2', 'x3', 'x4'],
-#             ['sub2', 'x1', 'x2', 'x3'],
-#             ['sub3', 'x1', 'x2', 'x3', 'x4']
-#             ]
-
-# print_code_test(code_struct_para, block_inst, 2, 'test.c')
-
-
-#     code_struct_type = code_struct_para['code_struct_type']
-#     loop_time = code_struct_para['loop_time']
-#     ifelse_pair = code_struct_para['ifelse_pair']
-#     embedded_loop_time = code_struct_para['embedded_loop_time']
-#     modulos = code_struct_para['modulos']
-#     ismoduled = code_struct_para['ismoduled']
-#     for i in range(ifelse_pair):
-#         ismoduled[i] = '=' if ismoduled[i] else '!'
-#     basic_block_size = code_struct_para['basic_block_num']
-# BASE_DIR = os.path.dirname(__file__)
-# dest_dir = os.path.join(BASE_DIR, 'CodeFiles')\

@@ -1,7 +1,7 @@
 %
 function [err] = error_eu(vectorA, vectorB, normMatrix)
-	ratioVectorA = value2ratio(vectorA);					% 归一化
-	ratioVectorB = value2ratio(vectorB);
+	ratioVectorA = value2ratio(vectorA, {'cPathLength'});					% 归一化
+	ratioVectorB = value2ratio(vectorB, {'cPathLength'});
 	% normedA = -1 + (ratioVectorA - normMatrix(1, :)) ./ (normMatrix(2, :) - normMatrix(1, :));
 	% normedB = -1 + (ratioVectorB - normMatrix(1, :)) ./ (normMatrix(2, :) - normMatrix(1, :));
 	normedA = ratioVectorA;

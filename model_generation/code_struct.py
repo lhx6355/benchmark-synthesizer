@@ -8,8 +8,7 @@ class NotFoundError(Exception):
 
 # function to select the matching code structure based on instruction mix, branch transition rate, instruction fetch reuse distance and instruction fetch address distance
 # @profile
-def code_struct(tr_lib, inst_mix, branch_transition_rate, inst_fetch_reuse_dist, inst_fetch_addr_dist, \
-                load_local_temporal, load_global_temporal, store_local_temporal, store_global_temporal):    
+def code_struct(tr_lib, inst_mix, branch_transition_rate, inst_fetch_reuse_dist, inst_fetch_addr_dist):    
 
     # define the error for selection step
     RATIO_ERROR_MIN = 0.9

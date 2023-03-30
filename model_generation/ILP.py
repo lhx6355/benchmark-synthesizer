@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 # 寄存器依赖距离没有实现，
 import random
-
-class ILPError(Exception):
-    pass
+from code_struct import NotFoundError
 
 def ILP(critical_path, inst_mix, block_inst):
     dest_reg = 'w6'
@@ -15,14 +13,12 @@ def ILP(critical_path, inst_mix, block_inst):
 # 由于每条load、store指令需要一条add、sub这种alu指令，因此留给mov的指令数为 int_alu_inst_num - load_inst_num - store_inst_num
     alu_available_inst_num = inst_mix['int_alu_inst_num'] - inst_mix['load_inst_num'] - inst_mix['store_inst_num'] - 4
     if alu_available_inst_num <= 0:
-        raise ILPError
+        raise NotFoundError
     # assert(alu_available_inst_num > 0)   
 
 # use mov to implement criticalpath
     critical_path_index = random.sample(range(40), critical_path)
     critical_path_index.sort()   
-    # 此时 criticalpath 不再等于 len(critical_path_index)
-    # critical_path_index = list(range(0, ROB_SIZE))[0 : ROB_SIZE : int(ROB_SIZE / critical_path)]
     
     # len(critical_path_index) * rob_num 是 ILP.py 插入的指令总数, 此处判断要插入的指令数量是否超出可用范围
     if len(critical_path_index) * rob_num > alu_available_inst_num: 
@@ -38,7 +34,6 @@ def ILP(critical_path, inst_mix, block_inst):
                     break
                 block_inst[j + i * ROB_SIZE] = ['mov', dest_reg, src_reg]
                 dest_reg, src_reg = src_reg, dest_reg               
-
 
     print("    ILP:    int_alu_inst_num : " + str(ILP_insert_inst))
     inst_mix['int_alu_inst_num'] = inst_mix['int_alu_inst_num'] - ILP_insert_inst

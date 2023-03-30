@@ -85,7 +85,7 @@ def final(block_inst, inst_mix):
 		for i in int_alu_inst_sub_idex:
 			block_inst[i] = ['sub', 'w3', 'w4', '#0x01']
 		inst_mix['int_alu_inst_num'] 		= inst_mix['int_alu_inst_num'] 		- len(int_alu_inst_add_idex) - len(int_alu_inst_sub_idex) 
-# 
+# 剩余的指令用 ALU 填充
 	block_free_index = [index for index in range(block_size) if len(block_inst[index]) == 0]
 	for i in block_free_index:
 		block_inst[i] = ['add', 'w3', 'w4', '#0x01']

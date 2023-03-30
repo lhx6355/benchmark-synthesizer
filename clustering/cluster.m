@@ -21,7 +21,7 @@ function [workloadMatrixSelected, indexSelected, classSelectedWeight] = cluster(
      fprintf(strcat('Step 1: There are', 32, num2str(size(rawData, 1)), ' intervals in ',  [' ' work_load_name{1}], '\n'));
      
      %--*************************** Norm: save normMatrix for error computation ***************************--%
-     normData = value2ratio(new_rawData);
+     normData = value2ratio(new_rawData, {'ALL'});
      normMatrix(1, :) = min(normData);
      normMatrix(2, :) = max(normData);
 

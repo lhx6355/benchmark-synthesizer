@@ -17,10 +17,10 @@ def insert_program(inst_mix, loop_time, basic_block_size, ifelse_pair, serial_bl
 	[new_inst_mix, block_size] = instMix.inst_Mix(inst_mix, loop_time, basic_block_size, ifelse_pair, code_struct_type)
 
 	# Serial
-	[block_inst, new_inst_mix] = Serial.Serial(new_inst_mix, block_size, serial_block_length)		# lhx  2022.03.09
+	[block_inst, new_inst_mix] = Serial.Serial(new_inst_mix, block_size, serial_block_length)
 
 	# ILP
-	[block_inst, new_inst_mix] = ILP.ILP(criticalpath, new_inst_mix, block_inst)				# lhx
+	[block_inst, new_inst_mix] = ILP.ILP(criticalpath, new_inst_mix, block_inst)
 
 	# memory
 	[block_inst, new_inst_mix] = memory.memory(new_inst_mix, block_inst, load_global_spatial_length, store_global_spatial_length, load_global_temporal_length, store_global_temporal_length)  	# lhx  2022.03.09
