@@ -59,20 +59,20 @@ function [ ratioVector ] = value2ratio(valueVector, mica_parameter)
         ratioVector(:, 88:97)    = fetchReuseDist./repmat(fetchReuseDistAll, 1, 10);
         ratioVector(:, 98:107)   = fetchAddrDist./repmat(fetchAddrDistAll, 1, 10);
         ratioVector(:, 108:119)  = ldGlobalReuseDist./repmat(ldGlobalReuseDistAll, 1, 12);
-        ratioVector(:, 120:131)  = ldLocalReuseDist./repmat(ldLocalReuseDistAll, 1, 12);
+        % ratioVector(:, 120:131)  = ldLocalReuseDist./repmat(ldLocalReuseDistAll, 1, 12);
         ratioVector(:, 132:143)  = stGlobalReuseDist./repmat(stGlobalReuseDistAll, 1, 12);
-        ratioVector(:, 144:155)  = stLocalReuseDist./repmat(stLocalReuseDistAll, 1, 12);
+        % ratioVector(:, 144:155)  = stLocalReuseDist./repmat(stLocalReuseDistAll, 1, 12);
         ratioVector(:, 156:167)  = ldGlobalAddrDist./repmat(ldGlobalAddrDistAll, 1, 12);
-        ratioVector(:, 168:179)  = ldLocalAddrDist./repmat(ldLocalAddrDistAll, 1, 12);
+        % ratioVector(:, 168:179)  = ldLocalAddrDist./repmat(ldLocalAddrDistAll, 1, 12);
         ratioVector(:, 180:191)  = stGlobalAddrDist./repmat(stGlobalAddrDistAll, 1, 12);
-        ratioVector(:, 192:203)  = stLocalAddrDist./repmat(stLocalAddrDistAll, 1, 12);
+        % ratioVector(:, 192:203)  = stLocalAddrDist./repmat(stLocalAddrDistAll, 1, 12);
         ratioVector(:, 204:218)  = BasicBlock./repmat(BasicBlockAll, 1, 15);
         ratioVector(:, 219)      = valueVector(:, 222)./branchesAll;
         ratioVector(:, 220)      = valueVector(:, 223)./branchesAll;
         ratioVector(:, 221)      = valueVector(:, 224)./branchesAll;
         ratioVector(:, 222)      = valueVector(:, 225)./branchesAll;
         ratioVector(:, 223:237)  = addrBranches./repmat(addrBranchesAll, 1, 15);
-        ratioVector(:, 238:252)  = serialBlockSize./repmat(serialBlockSizeAll, 1, 15);
+        % ratioVector(:, 238:252)  = serialBlockSize./repmat(serialBlockSizeAll, 1, 15);
     else
         if ismember(mica_parameter, 'Inst')
             ratioVector = [ratioVector, Inst./repmat(InstAll,1,14)];

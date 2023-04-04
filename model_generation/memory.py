@@ -63,7 +63,7 @@ def glob_mem_temp(mem_num, global_spatial_length, global_temporal_length):
             
     return distribution
 
-def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, load_global_temporal_length):
+def inst_allocate(inst_type, inst_mix, block_inst, global_spatial_length, global_temporal_length):
     if inst_type == 'ldr':
         dest_reg  = 'w14'
         src_reg   = 'x12'
@@ -80,7 +80,7 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
     if mem_inst_num == 0:
         return block_inst, inst_mix
 
-    distribution = glob_mem_temp(int(mem_inst_num - 1), load_global_spatial_length, load_global_temporal_length)
+    distribution = glob_mem_temp(int(mem_inst_num - 1), global_spatial_length, global_temporal_length)
 
     # 访存地址 0x500000
     immediate_number = 500000           
@@ -94,12 +94,12 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
         del(block_free_index[0]) 
 
     load_shift_num = 0
-    if load_global_spatial_length != 0:
+    if global_spatial_length != 0:
         # 当偏移小于 8 ** 4，采用立即数偏移，否则采用寄存器立即数偏移
-        if load_global_spatial_length <= 4:
-            load_offset_imme = int(4 * (random.randint(8 ** (load_global_spatial_length - 1), 8 ** (load_global_spatial_length) - 1) / 4))
+        if global_spatial_length <= 4:
+            load_offset_imme = int(4 * (random.randint(8 ** (global_spatial_length - 1), 8 ** (global_spatial_length) - 1) / 4))
         else:
-            load_shift_num = (load_global_spatial_length - 2) * 3
+            load_shift_num = (global_spatial_length - 2) * 3
             load_offset_imme = int(4 * (random.randint(8 ** (2 - 1), 8 ** (2) - 1) / 4))
             if len(block_free_index) != 0:
                 block_inst[block_free_index[0]] = ['mov', imme_reg, '#' + str(hex(load_offset_imme))]
@@ -149,14 +149,14 @@ def inst_allocate(inst_type, inst_mix, block_inst, load_global_spatial_length, l
     return block_inst, inst_mix
 
 
-def memory(inst_mix, block_inst, load_global_spatial_length, store_global_spatial_length, load_global_temporal_length, store_global_temporal_length):
-    block_inst, inst_mix = inst_allocate('ldr', inst_mix, block_inst, load_global_spatial_length,  load_global_temporal_length)
+def memory(inst_mix, block_inst, global_spatial_length, store_global_spatial_length, global_temporal_length, store_global_temporal_length):
+    block_inst, inst_mix = inst_allocate('ldr', inst_mix, block_inst, global_spatial_length,  global_temporal_length)
     block_inst, inst_mix = inst_allocate('str', inst_mix, block_inst, store_global_spatial_length, store_global_temporal_length)
 
     return block_inst, inst_mix
 
 # # the inst mix is the new inst returned from function ILP
-# def memory_depracated(inst_mix, block_inst, block_size, load_global_spatial_length, store_global_spatial_length):
+# def memory_depracated(inst_mix, block_inst, block_size, global_spatial_length, store_global_spatial_length):
 #     """generate the memory access inst in block inst with assigned global spatial length and implement various global temporal locality
     
 #     with block_inst from 
@@ -165,7 +165,7 @@ def memory(inst_mix, block_inst, load_global_spatial_length, store_global_spatia
 #         inst_mix {list} -- instruction mix of assigned block size, in the form of integer
 #         block_inst {list} -- a full instruction block with fixed block size 
 #         block_size {int} -- size of the full instruction block
-#         load_global_spatial_length {int} -- load global spatial length
+#         global_spatial_length {int} -- load global spatial length
 #         store_global_spatial_length {int} -- store global spatial length
     
 #     Returns:
@@ -180,7 +180,7 @@ def memory(inst_mix, block_inst, load_global_spatial_length, store_global_spatia
 
 # #generate global temporal locality distribution
 #     try:
-#         load_distribution = glob_mem_temp(load_inst_num, load_global_spatial_length)
+#         load_distribution = glob_mem_temp(load_inst_num, global_spatial_length)
 #         store_distribution = glob_mem_temp(store_inst_num, store_global_spatial_length)
 #     except MemoryError:
 #         if len(load_distribution) == 0 and len(store_distribution) == 0:
@@ -204,12 +204,12 @@ def memory(inst_mix, block_inst, load_global_spatial_length, store_global_spatia
 
 # #implement the load inst address offset, if spatial length <= 4, use direct offset_imme, else use register(x10), with shift(load_shift_num)
 #     load_shift_num = 0
-#     if load_global_spatial_length != 0:
-#         if load_global_spatial_length <= 4:
-#             load_offset_imme = 4 * (random.randint(8 ** (load_global_spatial_length - 1), 8 ** (load_global_spatial_length) - 1) / 4)
+#     if global_spatial_length != 0:
+#         if global_spatial_length <= 4:
+#             load_offset_imme = 4 * (random.randint(8 ** (global_spatial_length - 1), 8 ** (global_spatial_length) - 1) / 4)
 #             load_offset_imme = int(load_offset_imme)
 #         else:
-#             load_shift_num = (load_global_spatial_length -2) * 3
+#             load_shift_num = (global_spatial_length -2) * 3
 #             load_offset_imme = 4 * (random.randint(8 ** (2 - 1), 8 ** (2) - 1) / 4)
 #             load_offset_imme = int(load_offset_imme)
 #             for index in range(0, len(block_inst)):

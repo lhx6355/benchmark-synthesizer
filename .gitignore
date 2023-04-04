@@ -8,3 +8,4 @@ model_generation/__pycache__/
 .vscode/
 *.json
 *.c
+*.pyc

@@ -102,22 +102,22 @@ def error_computation():
 
 
 def main():
-	###--- 生成模板的 C代码 ---###
-	model_gen()
+	# ###--- 生成模板的 C代码 ---###
+	# model_gen()
 
-	# ## 读取模板的MICA，保存数据mat ###
-	# fastmodel_workload('model', ' ')
+	## 读取模板的MICA，保存数据mat ###
+	fastmodel_workload('model', ' ')
 
-	# ## functions to implement ###
-	# file_list = ['dou']
-	# # file_list = ['fluid-t2', 'fluid-t1', 'fluid-t0', 'swap-t2', 'swap-t1', 'swap-t0']
-	# for filename in file_list:
-	# 	filepath = os.path.join(os.path.dirname(__file__), os.path.join("workload_files", filename))
+	# functions to implement ###
+	file_list = ['crc']
+	# file_list = ['fluid-t2', 'fluid-t1', 'fluid-t0', 'swap-t2', 'swap-t1', 'swap-t0']
+	for filename in file_list:
+		filepath = os.path.join(os.path.dirname(__file__), os.path.join("workload_files", filename))
 
-	# 	fastmodel_workload('workload', filepath)
-	# 	clustering(filepath)
-	# 	model_selection(filepath)
-	# 	benchmark_sythesizer.benchmark_sythesizer(filepath)
+		fastmodel_workload('workload', filepath)
+		clustering(filepath)
+		model_selection(filepath)
+		benchmark_sythesizer.benchmark_sythesizer(filepath)
 
 	### functions to implement ###
 	# error_computation()

@@ -38,14 +38,12 @@ def benchmark_sythesizer(filepath):
 	benchmark_file.write("int temp[5000000][200] = {0};\n")
 	benchmark_file.write("void *ptr = temp + 500000 / 2;\n")
 
-	temp = benchmark_path.split('.')
-	benchmark_use_file_path = temp[0]
-
-	if os.path.exists(benchmark_use_file_path):
-		shutil.rmtree(benchmark_use_file_path)
-	os.mkdir(benchmark_use_file_path)
-
-	log_file = open(benchmark_use_file_path + "\\log.txt", 'w+')
+	# 创建同名的文件夹
+	cluster_dir = benchmark_path.split('.')[0]
+	if os.path.exists(cluster_dir):
+		shutil.rmtree(cluster_dir)
+	os.mkdir(cluster_dir)
+	log_file = open(cluster_dir + "\\log.txt", 'w+')
 
 	functions = []
 
@@ -56,9 +54,8 @@ def benchmark_sythesizer(filepath):
 		if weight[k] == 0 :																		# weight为0时，放弃合成该interval
 			continue
 		cluster_func = []
-		cluster_file = open(benchmark_use_file_path + "\\cluster" + str(k) + '.c', 'w+')
-		cluster_file.write("int temp[5000000] = {1};\n")
-		cluster_file.write("void *ptr = temp + 500000 / 2;\n")
+		cluster_file = open(cluster_dir + "\\cluster" + str(k) + '.c', 'w+')
+		cluster_file.write("int temp[5000000][200] = {0};\n")
 
 		model_selected = model_selecteds[k]
 		for i in range(0, len(model_selected)):													# model的数量 25933
@@ -78,7 +75,7 @@ def benchmark_sythesizer(filepath):
 
 				lines = model_file.readlines()
 				for line in range(0, len(lines)):
-					if "int temp[5000000] = {1};" in lines[line]:
+					if "int temp[5000000][200] = {0};" in lines[line]:
 						continue
 					if "main()" not in lines[line]:
 						if "#0x500000" in lines[line]:													# 替换原本的访存地址
@@ -99,28 +96,26 @@ def benchmark_sythesizer(filepath):
 
 				model_file = open(os.path.join(model_file_path, model_CFileName + '.c'), 'r+')
 
-				lines = model_file.readlines()
-				for line in range(0, len(lines)):
-					if "int temp[5000000] = {1};" in lines[line]:
+				for line in model_file.readlines():
+					if "int temp[5000000][200] = {0};" in line:
 						continue
-					if "main()" not in lines[line]:
-						if "#0x500000" in lines[line]:
-							# lines[line] = lines[line].replace('#0x500000', 'x11')
-							lines[line] = lines[line].replace('#0x500000', '#0x15d0000')
-						benchmark_file.write(lines[line])
+					if "main()" not in line:
+						if "#0x500000" in line:
+							# line = line.replace('#0x500000', 'x11')
+							line = line.replace('#0x500000', '#0x15d0000')
+						benchmark_file.write(line)
 					else:
 						break
 			
 		cluster_file.writelines("int main(){\n")
-		cluster_file.writelines(' asm volatile ("ldr x11, %0; ": "+m" (ptr) :: "x11"); \n')
+		# cluster_file.writelines(' asm volatile ("ldr x11, %0; ": "+m" (ptr) :: "x11"); \n')
 		for j in range(0, len(cluster_func)):
 			cluster_file.writelines("\t" + cluster_func[j])
 		cluster_file.writelines("\n\treturn 0;\n}")
 		cluster_file.close()
-				# shutil.copyfile(os.path.join(model_file_path, model_CFileName + '.c'), os.path.join(benchmark_use_file_path, model_CFileName + '.c'))
 		
 	benchmark_file.writelines("int main(){\n")						# 开始写主函数的内容
-	benchmark_file.writelines(' asm volatile ("ldr x11, %0; ": "+m" (ptr) :: "x11"); \n')
+	# benchmark_file.writelines(' asm volatile ("ldr x11, %0; ": "+m" (ptr) :: "x11"); \n')
 
 	for j in range(0, len(functions)):
 		benchmark_file.writelines("\t" + functions[j])

@@ -118,16 +118,16 @@ def gen_json():
 # set each parameter
 # instruction mix -- method1
 	SIMDNum = \
-		random.randint(1, 1000)	
+		random.randint(2000, 10000)	
 		# random.randint(SIMD_NUM_MIN, SIMD_NUM_MAX) 
 	para_dict['InstMix']['SIMDNum'] = SIMDNum
 
 	LoadInstNum = \
-		random.randint(1, 2000)
+		random.randint(1000, 2500)
 		#random.randint(LOAD_INST_NUM_MIN, LOAD_INST_NUM_MAX)
 	para_dict['InstMix']['LoadInstNum'] = LoadInstNum
 	StoreInstNum = \
-		random.randint(1, 2000)
+		random.randint(1000, 2500)
 		#random.randint(STORE_INST_NUM_MIN, STORE_INST_NUM_MAX)
 	para_dict['InstMix']['StoreInstNum'] = StoreInstNum
 
@@ -137,7 +137,7 @@ def gen_json():
 	para_dict['InstMix']['SerialInstNum'] = SerialInstNum
 
 	IntAluInstNum = \
-		random.randint(3500, 9500)
+		random.randint(4000, 10000)
 		#random.randint(INT_ALU_INST_NUM_MIN, INT_ALU_INST_NUM_MAX)
 	para_dict['InstMix']['IntAluInstNum'] = IntAluInstNum
 	IntMultiDivNum = \
@@ -163,7 +163,7 @@ def gen_json():
 	para_dict['InstMix']['FpNeonMulNum'] = FpNeonMulNum
 	# branch inst num cannot be zero                                     25%
 	BranchInstNum = \
-		random.randint(0, 4000)
+		random.randint(1000, 3000)
 		#random.randint(BRANCH_INST_NUM_MIN, BRANCH_INST_NUM_MAX)
 	para_dict['InstMix']['BranchInstNum'] = BranchInstNum
 
@@ -486,10 +486,9 @@ def json_gen(PatternPath_path):
 	if os.path.exists(dest_dir):						# 如果之前旧的文件夹存在，则删除旧文件夹
 		shutil.rmtree(dest_dir)							
 	os.mkdir(dest_dir)									# 在当前目录下创建 PatternFiles 文件夹
-	for i in range(100000, 200000):
+	for i in range(300000, 400000):
 	# for i in range(0, 10000):
 		print (i)
-		# para_dict = gen_para(json_num, 1)				# 一定规律的生成
 		para_dict = gen_json()							# 随机的生成参数
 		print_json(PatternPath_path, para_dict, str(i) + '.json')			# json写入文件
 

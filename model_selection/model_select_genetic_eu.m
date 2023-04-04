@@ -16,6 +16,9 @@ function [ modelSelected ] = model_select_genetic_eu(filepath)
 	load([filepath, '\Cluster\workloadMatrixSelected.mat'], 	'workloadMatrixSelected');
 	load([filepath, '\Cluster\normMatrix.mat'], 				'normMatrix');
 
+	% 删除之前的selcet文件
+    rmdir([filepath '\Select'], 's');
+    mkdir([filepath '\Select']);
 
 	work_load_name = strsplit(workloadName{1}, '.');
 	% if ~exist(['Errer/' work_load_name{1}], 'dir')
@@ -25,8 +28,8 @@ function [ modelSelected ] = model_select_genetic_eu(filepath)
 	% genetic algorithm parameters
 	popSize = 100;    					% population size
 	chromoSize = size(modelMatrix, 1);	% size of model library
-	generationNum = 500;    			% iteration times of genetic algorithm                  迭代次数
-	positiveBit = 50;   				% positive gene bits(selected number of models)         初始化的时候，前100个model匹配
+	generationNum = 2000;    			% iteration times of genetic algorithm                  迭代次数
+	positiveBit = 100;   				% positive gene bits(selected number of models)         初始化的时候，前100个model匹配
 	eliteFactor = 0.1;    				% elite ratio to store into child generation		 	精英率
 	crossFactor = 0.6;    				% cross over factor, gene bits ratio for cross over  	交叉率
 	mutateFactor = 0.8;    				% mutate factor, gene bits ratio for mutate			 	变异率
@@ -54,7 +57,7 @@ function [ modelSelected ] = model_select_genetic_eu(filepath)
 		Err_iter = zeros(generationNum, 2);
 		for iter = 1: generationNum
 			fprintf(strcat('working on workload',  [' ', work_load_name{1}, ' '], ' slice: ', num2str(slice), '/ ',  num2str(WORKLOAD_ROW), '   '));	
-			fprintf(strcat('  iteration time: ', num2str(iter), '    '));
+			fprintf(strcat('  iteration time: ', num2str(iter), '/', num2str(generationNum), '    '));
 			fprintf(strcat('  bestGeneration: ', num2str(bestGeneration), '    '));
 			fprintf(strcat('  minErr is:', num2str(minErr), '   '));
 			[pop, bestFatherPop, fitnessValue, bestFatherFitness] = fitness_and_sorting(target, pop);% 所有染色体对某一个workload slice的误差，返回误差的倒数：适应度, % 选择 对pop以及fitnessValue重排序，根据精英比例，选出最适应的几个染色体bestFatherPop   bestFitness ： 只有一个值

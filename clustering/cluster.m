@@ -16,7 +16,7 @@ function [workloadMatrixSelected, indexSelected, classSelectedWeight] = cluster(
      new_rawData = rawData(:, 1:255);                            % 实际的rawData也是255列的
      % new_rawData = rawData(:, 1:size(rawData, 2) - 4);        % 舍去最后的四个数据
      % assert(size(rawData, 1) - 1 > 0);
-     maxK = min(20, size(rawData, 1));                       % interval的数量应该大于1
+     maxK = min(10, size(rawData, 1));                       % interval的数量应该大于1
      
      fprintf(strcat('Step 1: There are', 32, num2str(size(rawData, 1)), ' intervals in ',  [' ' work_load_name{1}], '\n'));
      

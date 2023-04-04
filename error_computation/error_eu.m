@@ -1,8 +1,8 @@
 %
 function [err] = error_eu(vectorA, vectorB, normMatrix)
-	ratioVectorA = value2ratio(vectorA, {'cPathLength'});					% 归一化
-	ratioVectorB = value2ratio(vectorB, {'cPathLength'});
-	% normedA = -1 + (ratioVectorA - normMatrix(1, :)) ./ (normMatrix(2, :) - normMatrix(1, :));
+	ratioVectorA = value2ratio(vectorA, {'ALL'});					% 归一化
+	ratioVectorB = value2ratio(vectorB, {'ALL'});
+	% normedA = -1 + (ratioVectorA - normMatrix(1, :)) ./ (normMatrix(2, :) - normMatrix(1, :));		% 当只对一个interval
 	% normedB = -1 + (ratioVectorB - normMatrix(1, :)) ./ (normMatrix(2, :) - normMatrix(1, :));
 	normedA = ratioVectorA;
 	normedB = ratioVectorB;
