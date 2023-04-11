@@ -1,16 +1,18 @@
 template_files/log_cluster
 template_files/ModelMat
-workload_files/
-model_generation/TRLib_new.pkl
-model_selection/__pycache__/
-# model_generation/PatternFiles/
-# model_generation/CodeFiles/
-model_generation/__pycache__/
 PatternFiles*
 CodeFiles*
 ModelTrace*
+
+workload_files/*
+!workload_files/err_match.m
+!workload_files/select_mica_diff.m
+
+__pycache__/
 .vscode/
+
 *.json
 *.c
 *.pyc
 *.asv
+*.pkl
