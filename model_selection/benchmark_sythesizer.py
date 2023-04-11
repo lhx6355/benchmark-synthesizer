@@ -2,10 +2,10 @@ import os
 import pickle
 import shutil
 
-def benchmark_sythesizer(filepath):
+def benchmark_sythesizer(filepath, Codefile):
 	BASE_DIR = os.path.dirname(__file__)
 	benchmarks_path 	= os.path.join(filepath, 'Benchmark')
-	model_file_path 	= os.path.join(BASE_DIR, '..\\template_files\\CodeFiles')					# 改为--ofd的值 ？
+	model_file_path 	= os.path.join(BASE_DIR, '..\\template_files\\' + Codefile)					# 改为--ofd的值 ？
 
 	model_selected_file = open(os.path.join(filepath, 'Select\\model_selected.pkl'), 					'rb')
 	model_name_file 	= open(os.path.join(BASE_DIR, '..\\template_files\\ModelMat\\modelName.pkl'), 	'rb')
@@ -131,4 +131,5 @@ def benchmark_sythesizer(filepath):
 
 if __name__ == '__main__':
 	filepath = 'D:\\Project\\OPPO\\benchmark-synthesizer-function\\workload_files\\one-hundred'
-	benchmark_sythesizer(filepath)
+	Codefile = 'CodeFiles-3836'
+	benchmark_sythesizer(filepath, Codefile)

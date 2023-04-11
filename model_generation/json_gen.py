@@ -46,7 +46,7 @@ def gen_json():
 	BRANCH_INST_NUM_MAX = 100000
 
 	# ILP
-	CRITICAL_PATH_LENGTH_MIN = 0
+	CRITICAL_PATH_LENGTH_MIN = 25
 	CRITICAL_PATH_LENGTH_MAX = 40
 	REG_DEPENDENCE_LENGTH_MIN = 0
 	REG_DEPENDENCE_LENGTH_MAX = 29
@@ -118,7 +118,7 @@ def gen_json():
 # set each parameter
 # instruction mix -- method1
 	SIMDNum = \
-		random.randint(2000, 10000)	
+		random.randint(2000, 6000)	
 		# random.randint(SIMD_NUM_MIN, SIMD_NUM_MAX) 
 	para_dict['InstMix']['SIMDNum'] = SIMDNum
 

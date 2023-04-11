@@ -8,6 +8,14 @@ from model_generation import json_gen
 from model_generation import PCGen_new
 from model_selection  import benchmark_sythesizer
 
+def model_gen():
+	# json_gen.json_gen('PatternFiles')
+
+	sys.argv.append('--ifd')
+	sys.argv.append('PatternFiles')
+	sys.argv.append('--ofd')
+	sys.argv.append('CodeFiles')
+	PCGen_new.PCGen_new()
 
 def fastmodel_workload(profilerType, filepath):
 	print ('start function fastmodel_workload')
@@ -56,16 +64,6 @@ def clustering(filepath):
 	file.close()
 	print ('end function fastmodel_workload')
 
-def model_gen():
-	json_gen.json_gen('PatternFiles')
-
-	sys.argv.append('--ifd')
-	sys.argv.append('PatternFiles')
-	sys.argv.append('--ofd')
-	sys.argv.append('CodeFiles')
-	PCGen_new.PCGen_new()
-
-
 def model_selection(filepath):
 	print ('start function model_selection')
 	eng = matlab.engine.start_matlab()
@@ -102,22 +100,25 @@ def error_computation():
 
 
 def main():
+	Modelpath = 'ModelTrace-3836'
+	Codefile  = 'CodeFiles-3836'
+
 	# ###--- 生成模板的 C代码 ---###
 	# model_gen()
 
 	## 读取模板的MICA，保存数据mat ###
-	fastmodel_workload('model', ' ')
+	fastmodel_workload('model', Modelpath)
 
-	# functions to implement ###
-	file_list = ['crc']
+	# # functions to implement ###
+	file_list = ['cal']
 	# file_list = ['fluid-t2', 'fluid-t1', 'fluid-t0', 'swap-t2', 'swap-t1', 'swap-t0']
 	for filename in file_list:
 		filepath = os.path.join(os.path.dirname(__file__), os.path.join("workload_files", filename))
 
-		fastmodel_workload('workload', filepath)
-		clustering(filepath)
+		# fastmodel_workload('workload', filepath)
+		# clustering(filepath)
 		model_selection(filepath)
-		benchmark_sythesizer.benchmark_sythesizer(filepath)
+		benchmark_sythesizer.benchmark_sythesizer(filepath, Codefile)
 
 	### functions to implement ###
 	# error_computation()

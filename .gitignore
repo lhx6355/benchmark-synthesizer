@@ -1,11 +1,16 @@
-template_files/
+template_files/log_cluster
+template_files/ModelMat
 workload_files/
 model_generation/TRLib_new.pkl
 model_selection/__pycache__/
-model_generation/PatternFiles/
-model_generation/CodeFiles/
+# model_generation/PatternFiles/
+# model_generation/CodeFiles/
 model_generation/__pycache__/
+PatternFiles*
+CodeFiles*
+ModelTrace*
 .vscode/
 *.json
 *.c
 *.pyc
+*.asv
