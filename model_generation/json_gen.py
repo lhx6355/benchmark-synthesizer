@@ -22,31 +22,31 @@ Returns:
 def gen_json():
 # domain of each parameter
 	# instruction mix
-	SIMD_NUM_MIN = 0  
-	SIMD_NUM_MAX = 100000
-	LOAD_INST_NUM_MIN = 0
-	LOAD_INST_NUM_MAX = 100000
-	STORE_INST_NUM_MIN = 0
-	STORE_INST_NUM_MAX = 100000
-	SERIAL_INST_NUM_MIN = 0
-	SERIAL_INST_NUM_MAX = 100000
-	INT_ALU_INST_NUM_MIN = 0
-	INT_ALU_INST_NUM_MAX = 100000
-	INT_MULTI_DIV_NUM_MIN = 0
-	INT_MULTI_DIV_NUM_MAX = 100000
-	INT_MUL_NUM_MIN = 0
-	INT_MUL_NUM_MAX = 100000
-	FP_NEON_ALU_NUM_MIN = 0
-	FP_NEON_ALU_NUM_MAX = 100000
-	FP_NEON_DIV_NUM_MIN = 0
-	FP_NEON_DIV_NUM_MAX = 100000
-	FP_NEON_MUL_NUM_MIN = 0
-	FP_NEON_MUL_NUM_MAX = 100000
-	BRANCH_INST_NUM_MIN = 0
-	BRANCH_INST_NUM_MAX = 100000
+	# SIMD_NUM_MIN = 0  
+	# SIMD_NUM_MAX = 100000
+	# LOAD_INST_NUM_MIN = 0
+	# LOAD_INST_NUM_MAX = 100000
+	# STORE_INST_NUM_MIN = 0
+	# STORE_INST_NUM_MAX = 100000
+	# SERIAL_INST_NUM_MIN = 0
+	# SERIAL_INST_NUM_MAX = 100000
+	# INT_ALU_INST_NUM_MIN = 0
+	# INT_ALU_INST_NUM_MAX = 100000
+	# INT_MULTI_DIV_NUM_MIN = 0
+	# INT_MULTI_DIV_NUM_MAX = 100000
+	# INT_MUL_NUM_MIN = 0
+	# INT_MUL_NUM_MAX = 100000
+	# FP_NEON_ALU_NUM_MIN = 0
+	# FP_NEON_ALU_NUM_MAX = 100000
+	# FP_NEON_DIV_NUM_MIN = 0
+	# FP_NEON_DIV_NUM_MAX = 100000
+	# FP_NEON_MUL_NUM_MIN = 0
+	# FP_NEON_MUL_NUM_MAX = 100000
+	# BRANCH_INST_NUM_MIN = 0
+	# BRANCH_INST_NUM_MAX = 100000
 
 	# ILP
-	CRITICAL_PATH_LENGTH_MIN = 25
+	CRITICAL_PATH_LENGTH_MIN = 0
 	CRITICAL_PATH_LENGTH_MAX = 40
 	REG_DEPENDENCE_LENGTH_MIN = 0
 	REG_DEPENDENCE_LENGTH_MAX = 29
@@ -118,21 +118,21 @@ def gen_json():
 # set each parameter
 # instruction mix -- method1
 	SIMDNum = \
-		random.randint(2000, 6000)	
+		random.randint(1, 30)	
 		# random.randint(SIMD_NUM_MIN, SIMD_NUM_MAX) 
 	para_dict['InstMix']['SIMDNum'] = SIMDNum
 
 	LoadInstNum = \
-		random.randint(1000, 2500)
+		random.randint(500, 2000)
 		#random.randint(LOAD_INST_NUM_MIN, LOAD_INST_NUM_MAX)
 	para_dict['InstMix']['LoadInstNum'] = LoadInstNum
 	StoreInstNum = \
-		random.randint(1000, 2500)
+		random.randint(500, 2000)
 		#random.randint(STORE_INST_NUM_MIN, STORE_INST_NUM_MAX)
 	para_dict['InstMix']['StoreInstNum'] = StoreInstNum
 
 	SerialInstNum = \
-		random.randint(1, 30)
+		random.randint(50, 1000)
 		#random.randint(SERIAL_INST_NUM_MIN, SERIAL_INST_NUM_MAX)
 	para_dict['InstMix']['SerialInstNum'] = SerialInstNum
 
@@ -141,7 +141,7 @@ def gen_json():
 		#random.randint(INT_ALU_INST_NUM_MIN, INT_ALU_INST_NUM_MAX)
 	para_dict['InstMix']['IntAluInstNum'] = IntAluInstNum
 	IntMultiDivNum = \
-		random.randint(100, 1600)
+		random.randint(1, 20)
 		#random.randint(INT_MULTI_DIV_NUM_MIN, INT_MULTI_DIV_NUM_MAX)
 	para_dict['InstMix']['IntMultiDivNum'] = IntMultiDivNum
 	IntMulNum = \
@@ -163,7 +163,7 @@ def gen_json():
 	para_dict['InstMix']['FpNeonMulNum'] = FpNeonMulNum
 	# branch inst num cannot be zero                                     25%
 	BranchInstNum = \
-		random.randint(1000, 3000)
+		random.randint(500, 3000)
 		#random.randint(BRANCH_INST_NUM_MIN, BRANCH_INST_NUM_MAX)
 	para_dict['InstMix']['BranchInstNum'] = BranchInstNum
 
@@ -486,7 +486,7 @@ def json_gen(PatternPath_path):
 	if os.path.exists(dest_dir):						# 如果之前旧的文件夹存在，则删除旧文件夹
 		shutil.rmtree(dest_dir)							
 	os.mkdir(dest_dir)									# 在当前目录下创建 PatternFiles 文件夹
-	for i in range(300000, 400000):
+	for i in range(900000, 1000000):
 	# for i in range(0, 10000):
 		print (i)
 		para_dict = gen_json()							# 随机的生成参数

@@ -1,7 +1,7 @@
 %
 function [err] = error_eu(vectorA, vectorB, normMatrix)
-	ratioVectorA = value2ratio(vectorA, {'ALL'});	% 归一化 cPathLength ALL Global
-	ratioVectorB = value2ratio(vectorB, {'ALL'});
+	ratioVectorA = value2ratio(vectorA, {'ILP' ,'Global'});	% 归一化 ILP ALL Global Inst
+	ratioVectorB = value2ratio(vectorB, {'ILP' ,'Global'});
 	% normedA = -1 + (ratioVectorA - normMatrix(1, :)) ./ (normMatrix(2, :) - normMatrix(1, :));		% 当只对一个interval
 	% normedB = -1 + (ratioVectorB - normMatrix(1, :)) ./ (normMatrix(2, :) - normMatrix(1, :));
 	normedA = ratioVectorA;

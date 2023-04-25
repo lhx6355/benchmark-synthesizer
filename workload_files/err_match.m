@@ -1,17 +1,17 @@
 function [] = err_match()
-    path_name = 'cal';
-    workload_name = 'cal';
+    path_name = 'dou';
+    workload_name = 'dou';
     addpath([pwd, '\..\error_computation']);     
-    num = 5;
+    num = 10;
     
     for i = 1: num
         load([path_name, '\Select\', workload_name, '_Match_',  num2str(i) , '.mat'], 		'micaMatch');
         intervals_select = micaMatch(2, :);
         intervals_Match = micaMatch(1, :);
 
-%       %***** 转化为百分比  cPathLength Inst Global ALL
-        intervals_select = value2ratio(intervals_select, {'ALL'}) .* 100; 
-        intervals_Match  = value2ratio(intervals_Match,  {'ALL'}) .* 100;
+%       %***** 转化为百分比  ILP Inst Global ALL
+        intervals_select = value2ratio(intervals_select, {'ILP', 'Global'}) .* 100; 
+        intervals_Match  = value2ratio(intervals_Match,  {'ILP', 'Global'}) .* 100;
         
         figure(i);  bar([intervals_select; intervals_Match]');
         legend('原interval的MICA', '算法匹配后MICA和');

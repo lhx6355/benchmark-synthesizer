@@ -53,35 +53,33 @@ function [ ratioVector ] = value2ratio(valueVector, mica_parameter)
     if ismember('ALL', mica_parameter)
         ratioVector(:, 1:14)     = Inst./repmat(InstAll, 1, size(Inst, 2));
         ratioVector(:, 15:55)    = cPathLength./repmat(cPathLengthALL, 1, size(cPathLength, 2));
-        % ratioVector(:, 56:85)    = depGraphDist./repmat(depGraphDistAll, 1, size(depGraphDist, 2));
+        ratioVector(:, 56:85)    = depGraphDist./repmat(depGraphDistAll, 1, size(depGraphDist, 2));
         ratioVector(:, 86)       = RegReadAll./(RegReadAll + RegWriteAll);
         ratioVector(:, 87)       = RegWriteAll./(RegReadAll + RegWriteAll);
         ratioVector(:, 88:97)    = fetchReuseDist./repmat(fetchReuseDistAll, 1, size(fetchReuseDist, 2));
         ratioVector(:, 98:107)   = fetchAddrDist./repmat(fetchAddrDistAll, 1, size(fetchAddrDist, 2));
         ratioVector(:, 108:119)  = ldGlobalReuseDist./repmat(ldGlobalReuseDistAll, 1, size(ldGlobalReuseDist, 2));
-        % ratioVector(:, 120:131)  = ldLocalReuseDist./repmat(ldLocalReuseDistAll, 1, size(ldLocalReuseDist, 2));
+        ratioVector(:, 120:131)  = ldLocalReuseDist./repmat(ldLocalReuseDistAll, 1, size(ldLocalReuseDist, 2));
         ratioVector(:, 132:143)  = stGlobalReuseDist./repmat(stGlobalReuseDistAll, 1, size(stGlobalReuseDist, 2));
-        % ratioVector(:, 144:155)  = stLocalReuseDist./repmat(stLocalReuseDistAll, 1, size(stLocalReuseDist, 2));
+        ratioVector(:, 144:155)  = stLocalReuseDist./repmat(stLocalReuseDistAll, 1, size(stLocalReuseDist, 2));
         ratioVector(:, 156:167)  = ldGlobalAddrDist./repmat(ldGlobalAddrDistAll, 1, size(ldGlobalAddrDist, 2));
-        % ratioVector(:, 168:179)  = ldLocalAddrDist./repmat(ldLocalAddrDistAll, 1, size(ldLocalAddrDist, 2));
+        ratioVector(:, 168:179)  = ldLocalAddrDist./repmat(ldLocalAddrDistAll, 1, size(ldLocalAddrDist, 2));
         ratioVector(:, 180:191)  = stGlobalAddrDist./repmat(stGlobalAddrDistAll, 1, size(stGlobalAddrDist, 2));
-        % ratioVector(:, 192:203)  = stLocalAddrDist./repmat(stLocalAddrDistAll, 1, size(stLocalAddrDist, 2));
+        ratioVector(:, 192:203)  = stLocalAddrDist./repmat(stLocalAddrDistAll, 1, size(stLocalAddrDist, 2));
         ratioVector(:, 204:218)  = BasicBlock./repmat(BasicBlockAll, 1, size(BasicBlock, 2));
         ratioVector(:, 219)      = valueVector(:, 222)./branchesAll;
         ratioVector(:, 220)      = valueVector(:, 223)./branchesAll;
         ratioVector(:, 221)      = valueVector(:, 224)./branchesAll;
         ratioVector(:, 222)      = valueVector(:, 225)./branchesAll;
         ratioVector(:, 223:237)  = addrBranches./repmat(addrBranchesAll, 1, size(addrBranches, 2));
-        % ratioVector(:, 238:252)  = serialBlockSize./repmat(serialBlockSizeAll, 1, size(serialBlockSize, 2));
+        ratioVector(:, 238:252)  = serialBlockSize./repmat(serialBlockSizeAll, 1, size(serialBlockSize, 2));
     else
         if ismember('Inst', mica_parameter)
             ratioVector = [ratioVector, Inst./repmat(InstAll,1,14)];
         end
-        if ismember('cPathLength', mica_parameter)
+        if ismember('ILP', mica_parameter)
             ratioVector = [ratioVector, cPathLength./repmat(cPathLengthALL, 1, 41)];
-        end
-        if ismember('depGraphDist', mica_parameter)
-            ratioVector = [ratioVector, depGraphDist./repmat(depGraphDistAll, 1, 30)];
+            % ratioVector = [ratioVector, depGraphDist./repmat(depGraphDistAll, 1, 30)];
         end
         if ismember('RegRead&Write', mica_parameter)
             ratioVector = [ratioVector, RegReadAll./(RegReadAll + RegWriteAll)];

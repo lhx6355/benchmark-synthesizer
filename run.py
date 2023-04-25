@@ -9,7 +9,7 @@ from model_generation import PCGen_new
 from model_selection  import benchmark_sythesizer
 
 def model_gen():
-	# json_gen.json_gen('PatternFiles')
+	json_gen.json_gen('PatternFiles')
 
 	sys.argv.append('--ifd')
 	sys.argv.append('PatternFiles')
@@ -100,18 +100,19 @@ def error_computation():
 
 
 def main():
-	Modelpath = 'ModelTrace-3836'
-	Codefile  = 'CodeFiles-3836'
+	Modelpath = 'ModelTrace'
+	Codefile  = 'CodeFiles'
 
-	# ###--- 生成模板的 C代码 ---###
-	# model_gen()
+	# # ###--- 生成模板的 C代码 ---###
+	# # model_gen()
 
 	## 读取模板的MICA，保存数据mat ###
 	fastmodel_workload('model', Modelpath)
 
 	# # functions to implement ###
-	file_list = ['cal']
-	# file_list = ['fluid-t2', 'fluid-t1', 'fluid-t0', 'swap-t2', 'swap-t1', 'swap-t0']
+	file_list = ['crc']
+	# file_list = ['cal', 'note', 'dou']
+	# file_list = ['bitcnts', 'qsort', 'susan']
 	for filename in file_list:
 		filepath = os.path.join(os.path.dirname(__file__), os.path.join("workload_files", filename))
 

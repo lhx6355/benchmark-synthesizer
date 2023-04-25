@@ -69,7 +69,7 @@ def model_generate(pattern_para_list, tr_lib, file_dir):
 
 #---------------------------------------*************************-------------------------------------------
 # the complete flow of generate a model according  to json file
-    if store_global_spatial_length > 10 or load_global_spatial_length > 10 :                                  # lhx
+    if store_global_spatial_length > 9 or load_global_spatial_length > 9 :                                  # lhx
         raise NotFoundError
     
 

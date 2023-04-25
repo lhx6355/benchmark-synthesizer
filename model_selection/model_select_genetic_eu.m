@@ -26,12 +26,12 @@ function [ modelSelected ] = model_select_genetic_eu(filepath)
 	% end
 
 	% genetic algorithm parameters
-	popSize = 1000;    					% population size
+	popSize = 500;    					% population size
 	chromoSize = size(modelMatrix, 1);	% size of model library
 	generationNum = 500;    			% iteration times of genetic algorithm                  迭代次数
-	positiveBit = 6;   				% positive gene bits(selected number of models)         初始化的时候，前100个model匹配
+	positiveBit = 20;   				% positive gene bits(selected number of models)         初始化的时候，前100个model匹配
 	eliteFactor = 0.1;    				% elite ratio to store into child generation		 	精英率
-	crossFactor = 0.6;    				% cross over factor, gene bits ratio for cross over  	交叉率
+	crossFactor = 0.4;    				% cross over factor, gene bits ratio for cross over  	交叉率
 	mutateFactor = 0.4;    				% mutate factor, gene bits ratio for mutate			 	变异率
 
 	[MODEL_ROW, MODEL_COL] = size(modelMatrix);

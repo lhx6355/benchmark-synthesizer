@@ -6,6 +6,7 @@
 
 function [matrix, name] = txt2mat(profilerType, filepath)
 	cd([pwd, '\fastmodel_workload']);					% 路径由 run.py -> fastmodel_workload
+    
 	switch profilerType
 		case 'model'
 			fileArray = dir(['..\template_files\', filepath, '\*txt']);	
